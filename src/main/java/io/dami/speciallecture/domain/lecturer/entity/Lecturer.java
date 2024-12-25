@@ -1,7 +1,7 @@
-package io.dami.speciallecture.domain.lecturer;
+package io.dami.speciallecture.domain.lecturer.entity;
 
-import io.dami.speciallecture.domain.speciallecture.SpecialLecture;
-import io.dami.speciallecture.domain.user.User;
+import io.dami.speciallecture.domain.speciallecture.entity.SpecialLecture;
+import io.dami.speciallecture.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

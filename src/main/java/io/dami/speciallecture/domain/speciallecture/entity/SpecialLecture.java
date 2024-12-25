@@ -1,6 +1,8 @@
-package io.dami.speciallecture.domain.speciallecture;
+package io.dami.speciallecture.domain.speciallecture.entity;
 
-import io.dami.speciallecture.domain.lecturer.Lecturer;
+import io.dami.speciallecture.domain.exception.CustomException;
+import io.dami.speciallecture.domain.lecturer.entity.Lecturer;
+import io.dami.speciallecture.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -57,5 +59,25 @@ public class SpecialLecture {
     public boolean isParticipationOpen() {
         LocalDateTime now = LocalDateTime.now();
         return now.isAfter(participationStartTime) && now.isBefore(participationEndTime) && currentCount < capacity;
+    }
+
+    public SpecialLectureParticipant join(User user) {
+        if (!isParticipationOpen()) {
+            throw new CustomException("신청 가능 시간이 아닙니다.");
+        }
+        if (isUserContainsParticipant(user)) {
+            throw new CustomException("이미 참여한 특강 입니다.");
+        }
+        SpecialLectureParticipant specialLectureParticipant = new SpecialLectureParticipant(user, this);
+        specialLectureParticipants.add(specialLectureParticipant);
+        return specialLectureParticipant;
+    }
+
+    /**
+     * 이미 참여 한 사용자인지
+     */
+    public boolean isUserContainsParticipant(User user) {
+        return specialLectureParticipants.stream()
+                .anyMatch(specialLectureParticipant -> specialLectureParticipant.getUser().getId().equals(user.getId()));
     }
 }

@@ -1,6 +1,6 @@
-package io.dami.speciallecture.domain.speciallecture;
+package io.dami.speciallecture.domain.speciallecture.entity;
 
-import io.dami.speciallecture.domain.user.User;
+import io.dami.speciallecture.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -36,4 +36,10 @@ public class SpecialLectureParticipant {
 
     @Comment("신청 시간")
     private LocalDateTime createdDate = LocalDateTime.now();
+
+    public SpecialLectureParticipant(User user, SpecialLecture specialLecture) {
+        this.user = user;
+        this.specialLecture = specialLecture;
+        this.createdDate = LocalDateTime.now();
+    }
 }
