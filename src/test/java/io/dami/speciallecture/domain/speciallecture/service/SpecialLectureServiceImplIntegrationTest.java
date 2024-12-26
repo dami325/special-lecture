@@ -122,12 +122,12 @@ class SpecialLectureServiceImplIntegrationTest {
     @Test
     void registerParticipantSuccess() throws InterruptedException {
         //given
-        final int USERS = 40;
-        ExecutorService executorService = Executors.newFixedThreadPool(USERS);
-        CountDownLatch latch = new CountDownLatch(USERS);
+        final int threads = 40;
+        ExecutorService executorService = Executors.newFixedThreadPool(threads);
+        CountDownLatch latch = new CountDownLatch(threads);
 
         //when
-        for (int i = 1; i <= USERS; i++) {
+        for (int i = 1; i <= threads; i++) {
             final int index = i;
             executorService.submit(() -> {
                 try {
@@ -148,5 +148,31 @@ class SpecialLectureServiceImplIntegrationTest {
         Assertions.assertThat(specialLecture.getCurrentCount()).isEqualTo(30);
     }
 
+    @DisplayName("특강 신청 동일한 유저 같은 특강을 5번 신청했을 때, 1번만 성공")
+    @Test
+    void registerParticipantFail2() throws InterruptedException {
+        // given
+        final int threads = 5;
+        ExecutorService executorService = Executors.newFixedThreadPool(threads);
+        CountDownLatch latch = new CountDownLatch(threads);
 
+        // when
+        for (int i = 0; i < threads; i++) {
+            executorService.submit(() -> {
+                try {
+                    specialLectureService.registerParticipant(specialLecture.getId(), userId);
+                } catch (CustomException e) {
+                    Assertions.assertThat(e.getMessage()).isEqualTo("이미 참여한 특강 입니다.");
+                } finally {
+                    latch.countDown();
+                }
+            });
+        }
+        latch.await();
+
+        // then
+        SpecialLecture result = specialLectureJpaRepository.findFetchById(specialLecture.getId()).get();
+        Assertions.assertThat(result.getCurrentCount()).isEqualTo(1);
+        Assertions.assertThat(result.getSpecialLectureParticipants().size()).isEqualTo(1);
+    }
 }
