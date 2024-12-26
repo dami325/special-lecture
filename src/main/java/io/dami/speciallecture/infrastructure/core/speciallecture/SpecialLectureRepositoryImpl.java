@@ -30,4 +30,9 @@ public class SpecialLectureRepositoryImpl implements SpecialLectureRepository {
     public Optional<SpecialLecture> findById(Long specialLectureId) {
         return specialLectureJpaRepository.findById(specialLectureId);
     }
+
+    @Override
+    public Optional<SpecialLecture> selectForUpdateById(Long specialLectureId) {
+        return specialLectureJpaRepository.selectForUpdateById(specialLectureId);
+    }
 }

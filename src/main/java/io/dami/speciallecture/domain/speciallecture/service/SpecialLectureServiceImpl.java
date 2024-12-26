@@ -50,7 +50,7 @@ public class SpecialLectureServiceImpl implements SpecialLectureService {
     @Override
     public SpecialLectureParticipantInfo registerParticipant(Long specialLectureId, Long userId) {
 
-        SpecialLecture specialLecture = specialLectureRepository.findById(specialLectureId)
+        SpecialLecture specialLecture = specialLectureRepository.selectForUpdateById(specialLectureId)
                 .orElseThrow(() -> new CustomException("유효하지 않은 강의"));
 
         User user = userRepository.findById(userId)

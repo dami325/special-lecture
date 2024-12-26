@@ -1,6 +1,5 @@
 package io.dami.speciallecture.domain.speciallecture.repository;
 
-import io.dami.speciallecture.domain.speciallecture.command.ParticipantsCommand;
 import io.dami.speciallecture.domain.speciallecture.command.SpecialLecturesCommand;
 import io.dami.speciallecture.domain.speciallecture.entity.SpecialLecture;
 
@@ -15,4 +14,5 @@ public interface SpecialLectureRepository {
 
     Optional<SpecialLecture> findById(Long specialLectureId);
 
+    Optional<SpecialLecture> selectForUpdateById(Long specialLectureId);
 }
