@@ -19,7 +19,7 @@ public record SpecialLectureInfo(
     public static SpecialLectureInfo mapToInfo(SpecialLecture specialLecture) {
         return new SpecialLectureInfo(
                 specialLecture.getId(),
-                specialLecture.isParticipationOpen(),
+                specialLecture.isParticipationOpen() && !specialLecture.isFull(),
                 specialLecture.getTitle(),
                 specialLecture.getLecturer().getUser().getUsername(),
                 specialLecture.getCurrentCount(),

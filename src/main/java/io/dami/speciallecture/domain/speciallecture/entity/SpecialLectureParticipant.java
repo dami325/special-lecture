@@ -9,6 +9,8 @@ import org.hibernate.annotations.Comment;
 
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.ConstraintMode.NO_CONSTRAINT;
+
 @Getter
 @Entity
 @Comment(value = "특강 참여자")
@@ -27,11 +29,11 @@ public class SpecialLectureParticipant {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false,foreignKey = @ForeignKey(NO_CONSTRAINT))
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "special_lecture_id", nullable = false)
+    @JoinColumn(name = "special_lecture_id", nullable = false, foreignKey = @ForeignKey(NO_CONSTRAINT))
     private SpecialLecture specialLecture;
 
     @Comment("신청 시간")

@@ -26,4 +26,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST,CascadeType.MERGE}, orphanRemoval = true)
     private Set<SpecialLectureParticipant> specialLectureParticipants = new HashSet<>();
 
+    public User(Long id, String username) {
+        this.id = id;
+        this.username = username;
+        this.specialLectureParticipants = new HashSet<>();
+    }
 }
